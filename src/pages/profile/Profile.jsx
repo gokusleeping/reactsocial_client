@@ -6,6 +6,7 @@ import Rightbar from "../../components/rightbar/Rightbar";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
+import apiEndpoints from "../../apiEndpoints";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -27,7 +28,7 @@ export default function Profile() {
 
 	useEffect(() => {
 		const fetchUser = async () => {
-			const res = await axios.get(`/users?username=${username}`);
+			const res = await axios.get(apiEndpoints["USER_PROFILE"](username));
 			setUser(res.data);
 		};
 		fetchUser();

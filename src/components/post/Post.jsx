@@ -1,3 +1,5 @@
+import apiEndpoints from "../../apiEndpoints";
+
 import "./post.css";
 import { MoreVert } from "@material-ui/icons";
 import { useContext, useEffect, useState } from "react";
@@ -41,7 +43,7 @@ export default function Post({ post, setPosts }) {
 
 	useEffect(() => {
 		const fetchUser = async () => {
-			const res = await axios.get(`/users?userId=${post.userId}`);
+			const res = await axios.get(apiEndpoints["GET_USER"](post.userId));
 			setUser(res.data);
 		};
 		fetchUser();
@@ -49,7 +51,7 @@ export default function Post({ post, setPosts }) {
 
 	const likeHandler = () => {
 		try {
-			axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
+			axios.put(apiEndpoints["LIKE_POST"](post._id), { userId: currentUser._id });
 		} catch (err) {}
 		setLike(isLiked ? like - 1 : like + 1);
 		setIsLiked(!isLiked);
@@ -57,7 +59,7 @@ export default function Post({ post, setPosts }) {
 
 	const deletePost = () => {
 		try {
-			axios.delete(`/posts/${post._id}`, { userId: currentUser._id });
+			axios.delete(apiEndpoints["DELETE_POST"](post._id), { userId: currentUser._id });
 		} catch (e) {
 			console.error(e);
 		}

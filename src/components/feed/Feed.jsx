@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import Post from "../post/Post";
-import Share from "../share/Share";
+import apiEndpoints from "../../apiEndpoints";
 import "./feed.css";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
@@ -20,7 +20,7 @@ export default function Feed({ username }) {
 
 	useEffect(() => {
 		const fetchPosts = async () => {
-			const res = username ? await axios.get("/posts/profile/" + username) : await axios.get("posts/timeline/" + user._id);
+			const res = username ? await axios.get(apiEndpoints["PROFILE"](username)) : await axios.get(apiEndpoints["TIMELINE"](user._id));
 			setPosts(
 				res.data.sort((p1, p2) => {
 					return new Date(p2.createdAt) - new Date(p1.createdAt);
@@ -47,11 +47,11 @@ export default function Feed({ username }) {
 			newPost.img = fileName;
 			console.log(newPost);
 			try {
-				await axios.post("/upload", data);
+				await axios.post(apiEndpoints["IMAGE_UPLOAD"], data);
 			} catch (err) {}
 		}
 		try {
-			await axios.post("/posts", newPost);
+			await axios.post(apiEndpoints["POSTS"], newPost);
 			window.location.reload();
 		} catch (err) {}
 	};

@@ -1,3 +1,4 @@
+import apiEndpoints from "../apiEndpoints";
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
@@ -121,7 +122,7 @@ export default function ClippedDrawer({ history }) {
 	useEffect(
 		() =>
 			(async () => {
-				const res = await axios.get("/users/all");
+				const res = await axios.get(apiEndpoints["USERS"]);
 				setUsers(res.data);
 			})(),
 		[]
